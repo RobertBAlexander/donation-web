@@ -6,15 +6,29 @@
 const Hapi = require('hapi');
 
 var server = new Hapi.Server();
-server.connection({ port: process.env.PORT || 4000 });
+server.connection({ port: process.env.PORT || 7000 });
 
+const initUsers = {
+  'homer@simpson.com': {
+    firstName: 'Homer',
+    lastName: 'Simpson',
+    email: 'homer@simpson.com',
+    password: 'secret',
+  },
+  'bart@simpson.com': {
+    firstName: 'Bart',
+    lastName: 'Simpson',
+    email: 'bart@simpaon.com',
+    password: 'secret',
+  },
+};
+
+//server.bind({
+//   currentUser: {},
+//   users: initUsers,
+//   donations: [],
+//});
 require('./app/models/db');
-
-/*server.bind({
-  //currentUser: {},
-  users: {},
-  donations: [],
-});*/
 
 server.register([require('inert'), require('vision'), require('hapi-auth-cookie')], err => {
 
@@ -28,7 +42,7 @@ server.register([require('inert'), require('vision'), require('hapi-auth-cookie'
     },
     relativeTo: __dirname,
     path: './app/views',
-    layoutPath: './app/views/layout',
+    layoutPath: './app/views/layouts',
     partialsPath: './app/views/partials',
     layout: true,
     isCached: false,
@@ -47,12 +61,12 @@ server.register([require('inert'), require('vision'), require('hapi-auth-cookie'
   });
 
   server.route(require('./routes'));
-  server.start(err => {
+
+  server.start((err) => {
     if (err) {
       throw err;
     }
 
     console.log('Server listening at:', server.info.uri);
   });
-
 });

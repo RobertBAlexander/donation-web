@@ -1,6 +1,8 @@
 /**
  * Created by Robert Alexander on 02/10/2017.
  */
+'use strict'
+
 const mongoose = require('mongoose');
 
 const donationSchema = mongoose.Schema({
